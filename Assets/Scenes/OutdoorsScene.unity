@@ -643,9 +643,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f075e8f938435954eb0dea3b0cd01580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitHighlightPrefab: {fileID: 7468928144781848146, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
   soldierPrefab: {fileID: 8155197772539046217, guid: 62929b588192b13449d78d4b0c37e1a4, type: 3}
-  numberOfUnits: 8
+  numberOfUnits: 16
   soldiers: []
+  unitHighlights: []
 --- !u!114 &941777742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1262,7 +1264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034412794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -100000, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
