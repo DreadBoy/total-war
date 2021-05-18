@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 1890.6877, g: 2079.321, b: 3155.5483, a: 1}
+  m_IndirectSpecularColor: {r: 1876.4668, g: 2026.1914, b: 2983.2695, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -377,7 +377,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: -10}
-  m_SizeDelta: {x: 120, y: 60}
+  m_SizeDelta: {x: 150, y: 60}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &249022070
 MonoBehaviour:
@@ -425,12 +425,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 723862401}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: Line
-        m_Mode: 1
+        m_MethodName: KillSoldiers
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -591,7 +591,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Line
+  m_Text: Kill soldiers
 --- !u!222 &676473500
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitHighlightPrefab: {fileID: 7468928144781848146, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
   soldierPrefab: {fileID: 8155197772539046217, guid: 62929b588192b13449d78d4b0c37e1a4, type: 3}
-  numberOfUnits: 16
+  numberOfUnits: 39
   soldiers: []
   unitHighlights: []
 --- !u!114 &941777742
@@ -947,7 +947,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
   m_LocalRotation: {x: 0.1464466, y: -0.8535535, z: 0.35355338, w: 0.35355338}
-  m_LocalPosition: {x: 9.434219, y: 10, z: 6.9995003}
+  m_LocalPosition: {x: 13.449385, y: 12.12132, z: 6.113015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
