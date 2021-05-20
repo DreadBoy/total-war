@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Unit : MonoBehaviour
 {
@@ -15,80 +13,81 @@ public class Unit : MonoBehaviour
     [Range(MinNumberOfUnits, 64)] public int numberOfUnits;
     private int _numberOfUnits;
 
-    [SerializeField] private List<Soldier> soldiers;
-    [SerializeField] private List<UnitHighlight> unitHighlights;
+    [SerializeField] private List<Vector3> localPositions;
+    private List<Soldier> _soldiers = new List<Soldier>();
 
     private void Reset()
     {
         numberOfUnits = 8;
-        soldiers = new List<Soldier>();
-        unitHighlights = new List<UnitHighlight>();
+        _soldiers = new List<Soldier>();
     }
 
     private void Awake()
     {
         _numberOfUnits = numberOfUnits;
         SpawnSoldiers();
-        StartCoroutine(RepositionSoldiers());
     }
 
 
     private void SpawnSoldiers()
     {
-        var positions = new UnitPositions(_numberOfUnits, UnitSize).Line();
+        localPositions = new UnitPositions(_numberOfUnits, UnitSize).Line().ToList();
         for (var i = 0; i < _numberOfUnits; i++)
-            SpawnSoldier(positions[i]);
+            SpawnSoldier(localPositions[i]);
     }
 
     private void SpawnSoldier(Vector3 localPosition)
     {
-        var soldier = Instantiate(soldierPrefab, transform);
-        soldier.transform.localPosition = localPosition;
-        soldiers.Add(soldier);
+        var globalPosition = ProjectOnTerrain(localPosition);
 
-        var unitHighlight = Instantiate(unitHighlightPrefab, transform);
-        unitHighlight.transform.localPosition = localPosition;
-        unitHighlight.Shown(true);
-        unitHighlights.Add(unitHighlight);
+        var soldier = Instantiate(soldierPrefab, transform);
+        soldier.WarpTo(globalPosition);
+        _soldiers.Add(soldier);
     }
 
     public void KillSoldiers(int numberOfKilled)
     {
-        for (int i = 0; i < numberOfKilled; i++)
+        for (var i = 0; i < numberOfKilled; i++)
         {
             var index = Random.Range(0, _numberOfUnits);
             KillSoldier(index);
         }
+
+        StartCoroutine(RepositionSoldiers());
     }
 
-    public void KillSoldier(int index)
+    private void KillSoldier(int index)
     {
         if (_numberOfUnits - 1 < MinNumberOfUnits) return;
 
         _numberOfUnits--;
 
-        Destroy(soldiers[index].gameObject);
-        soldiers.RemoveAt(index);
-
-        Destroy(unitHighlights[index].gameObject);
-        unitHighlights.RemoveAt(index);
-        var positions = new UnitPositions(_numberOfUnits, UnitSize).Line();
-        for (var i = 0; i < positions.Length; i++)
-            unitHighlights[i].transform.localPosition = positions[i];
+        Destroy(_soldiers[index].gameObject);
+        _soldiers.RemoveAt(index);
+        localPositions.RemoveAt(index);
     }
 
     IEnumerator RepositionSoldiers()
     {
         yield return new WaitForEndOfFrame();
-        while (true)
+        localPositions = new UnitPositions(_numberOfUnits, UnitSize).Line().ToList();
+        for (var i = 0; i < _numberOfUnits; i++)
         {
-            for (var i = 0; i < soldiers.Count; i++)
-            {
-                var localPositions = unitHighlights.Select(h => h.transform.localPosition).ToArray();
-                soldiers[i].CheckYourPosition(localPositions, UnitSize);
-            }
-
-            yield return new WaitForSeconds(1);
+            _soldiers[i].GoTo(ProjectOnTerrain(localPositions[i]));
         }
+    }
+    
+    /// <summary>
+    /// Projects local position to terrain and returns global position 
+    /// </summary>
+    /// <param name="localPosition"></param>
+    /// <returns></returns>
+    private Vector3 ProjectOnTerrain(Vector3 localPosition)
+    {
+        var globalPosition = transform.TransformPoint(localPosition);
+        var result = new RaycastHit[1];
+        var mask = LayerMask.GetMask("Terrain");
+        var hits = Physics.RaycastNonAlloc(globalPosition + Vector3.up * 1000, Vector3.down, result, 1000, mask);
+        return hits == 1 ? result[0].point : globalPosition;
     }
 }
