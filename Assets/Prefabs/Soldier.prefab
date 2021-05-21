@@ -813,8 +813,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8155197772546314958}
-  rigidBody: {fileID: 8155197772539046218}
   navMeshAgent: {fileID: 5753704321903401108}
+  entityHighlight: {fileID: 8155197773944688286}
+  unit: {fileID: 0}
 --- !u!1 &8155197772539009732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,3 +1073,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7468928144781848144, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
   m_PrefabInstance: {fileID: 1624642476715548876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8155197773944688286 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7468928144781848146, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
+  m_PrefabInstance: {fileID: 1624642476715548876}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60a04a966721764458e3dc0ed130199e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

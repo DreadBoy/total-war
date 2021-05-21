@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
     private const int MinNumberOfUnits = 8;
     private const float UnitSize = 2f;
 
-    [SerializeField] private UnitHighlight unitHighlightPrefab;
+    [SerializeField] private EntityHighlight entityHighlightPrefab;
     [SerializeField] private Soldier soldierPrefab;
     [Range(MinNumberOfUnits, 64)] public int numberOfUnits;
     private int _numberOfUnits;
@@ -67,6 +67,21 @@ public class Unit : MonoBehaviour
         localPositions.RemoveAt(index);
     }
 
+    public void ToggleHighlight()
+    {
+        IsHighlighted = !IsHighlighted;
+    }
+
+    public bool IsHighlighted
+    {
+        get => _soldiers.Aggregate(false, (agg, soldier) => agg || soldier.IsHighlighted);
+        set
+        {
+            foreach (var soldier in _soldiers)
+                soldier.IsHighlighted = value;
+        }
+    }
+
     IEnumerator RepositionSoldiers()
     {
         yield return new WaitForEndOfFrame();
@@ -76,7 +91,7 @@ public class Unit : MonoBehaviour
             _soldiers[i].GoTo(ProjectOnTerrain(localPositions[i]));
         }
     }
-    
+
     /// <summary>
     /// Projects local position to terrain and returns global position 
     /// </summary>

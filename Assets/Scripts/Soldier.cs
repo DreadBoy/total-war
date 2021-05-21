@@ -7,14 +7,16 @@ public class Soldier : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent navMeshAgent;
+    [SerializeField] private EntityHighlight entityHighlight;
     [SerializeField] private Unit unit;
 
     private IEnumerator _goTo;
-    
+
     private void Reset()
     {
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        entityHighlight = GetComponentInChildren<EntityHighlight>();
     }
 
     private void Awake()
@@ -65,7 +67,7 @@ public class Soldier : MonoBehaviour
         }
 
         WarpTo(globalPosition);
-        
+
         Idle();
         LookForward();
         _goTo = null;
@@ -84,8 +86,9 @@ public class Soldier : MonoBehaviour
         StartCoroutine(_goTo);
     }
 
-    private void Update()
+    public bool IsHighlighted
     {
-        Debug.DrawLine(transform.position, navMeshAgent.destination, Color.red);
+        get => entityHighlight.IsHighlighted;
+        set => entityHighlight.IsHighlighted = value;
     }
 }
