@@ -788,10 +788,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.35
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 5
+  m_Acceleration: 50
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 1000
   m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1060,7 +1060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7468928144781848151, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
       propertyPath: m_Name
-      value: Unit highlight
+      value: Entity highlight
       objectReference: {fileID: 0}
     - target: {fileID: 7468928144781848151, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
       propertyPath: m_Layer

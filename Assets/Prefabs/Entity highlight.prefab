@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7468928144781848145}
   - component: {fileID: 7468928144781848146}
   m_Layer: 0
-  m_Name: Unit highlight
+  m_Name: Entity highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

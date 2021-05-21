@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -11,6 +12,8 @@ public class Soldier : MonoBehaviour
     [SerializeField] private Unit unit;
 
     private IEnumerator _goTo;
+
+    public Unit Unit => unit;
 
     private void Reset()
     {
@@ -50,7 +53,7 @@ public class Soldier : MonoBehaviour
 
     private void LookForward()
     {
-        transform.forward = unit.transform.forward;
+        transform.forward = unit.Forward;
     }
 
     private IEnumerator GoToAnimated(Vector3 globalPosition)
@@ -61,7 +64,7 @@ public class Soldier : MonoBehaviour
 
         while (true)
         {
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(0.5f);
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
                 break;
         }
@@ -90,5 +93,10 @@ public class Soldier : MonoBehaviour
     {
         get => entityHighlight.IsHighlighted;
         set => entityHighlight.IsHighlighted = value;
+    }
+
+    private void Update()
+    {
+        Debug.DrawLine(transform.position, navMeshAgent.destination, Color.red);
     }
 }

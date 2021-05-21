@@ -425,8 +425,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 723862401}
         m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: ToggleHighlight
-        m_Mode: 1
+        m_MethodName: KillSoldiers
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -591,7 +591,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Toggle highlight
+  m_Text: Kill soldiers
 --- !u!222 &676473500
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -643,10 +643,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f075e8f938435954eb0dea3b0cd01580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityHighlightPrefab: {fileID: 0}
+  entityHighlightPrefab: {fileID: 7468928144781848146, guid: 02c58eae40b200942b22626177cb0afb, type: 3}
   soldierPrefab: {fileID: 8155197772539046217, guid: 62929b588192b13449d78d4b0c37e1a4, type: 3}
   numberOfUnits: 39
-  localPositions: []
 --- !u!114 &941777742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,8 +877,9 @@ GameObject:
   - component: {fileID: 1823688466}
   - component: {fileID: 1823688465}
   - component: {fileID: 1823688468}
-  - component: {fileID: 1823688469}
   - component: {fileID: 1823688471}
+  - component: {fileID: 1823688469}
+  - component: {fileID: 1823688470}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -946,7 +946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
   m_LocalRotation: {x: 0.1464466, y: -0.8535535, z: 0.35355338, w: 0.35355338}
-  m_LocalPosition: {x: 13.449385, y: 12.12132, z: 6.113015}
+  m_LocalPosition: {x: 15.532566, y: 23.435036, z: 14.113015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1078,6 +1078,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db457290687467d4b91b28534ac11667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1823688470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823688464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4926a4365a72f74085d56e4b0134bad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1823688466}
 --- !u!114 &1823688471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,10 +1117,10 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1823688466}
 --- !u!114 &1873547129
 MonoBehaviour:
   m_ObjectHideFlags: 0
