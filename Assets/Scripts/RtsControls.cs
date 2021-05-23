@@ -27,7 +27,7 @@ public class RtsControls : MonoBehaviour
                 var hitCount = Physics.RaycastNonAlloc(ray, hits, 1000, mask);
                 if (hitCount == 1)
                 {
-                    var soldier = hits[0].transform.GetComponent<Soldier>();
+                    var soldier = hits[0].transform.GetComponent<Entity>();
                     if (soldier != null)
                         soldier.Unit.IsHighlighted = true;
                 }

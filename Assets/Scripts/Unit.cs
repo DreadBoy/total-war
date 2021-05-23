@@ -4,20 +4,16 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Unit: MonoBehaviour
 {
-    private const int MinNumberOfUnits = 8;
-    private const float UnitSize = 2f;
-
-    [SerializeField] private EntityHighlight entityHighlightPrefab;
-    [SerializeField] private Soldier soldierPrefab;
-
     private int _numberOfUnits;
-    [Range(MinNumberOfUnits, 64)] public int numberOfUnits;
-
     private Vector3 _destination = Vector3.zero;
     private Vector3 _forward = Vector3.zero;
+    private Entity[] _entities = new Entity[0];
+    private UnitDescriptor _unitDescriptor;
 
+    [SerializeField] private Player parent;
+    
     public Vector3 Destination
     {
         get => _destination;
@@ -32,18 +28,12 @@ public class Unit : MonoBehaviour
     }
 
     public Vector3 Forward => _forward;
-
-    private List<Soldier> _soldiers = new List<Soldier>();
-
-    private void Reset()
+    
+    public void Init(Player player, UnitDescriptor unitDescriptor)
     {
-        numberOfUnits = 8;
-        _soldiers = new List<Soldier>();
-    }
-
-    private void Awake()
-    {
-        _numberOfUnits = numberOfUnits;
+        parent = player;
+        _unitDescriptor = unitDescriptor;
+        _numberOfUnits = _unitDescriptor.defaultNumberOfEntities;
         var t = transform;
         _destination = t.position;
         _forward = t.forward;
@@ -53,14 +43,14 @@ public class Unit : MonoBehaviour
 
     private void SpawnSoldiers()
     {
-        var localPositions = new UnitPositions(_numberOfUnits, UnitSize).Line().ToList();
+        var localPositions = new UnitPositions(_numberOfUnits, _unitDescriptor.entitySize).Line().ToList();
         for (var i = 0; i < _numberOfUnits; i++)
         {
             var globalPosition = ProjectOnTerrain(localPositions[i]);
 
-            var soldier = Instantiate(soldierPrefab, transform);
+            var soldier = Instantiate(_unitDescriptor.entityPrefab, transform);
             soldier.WarpTo(globalPosition);
-            _soldiers.Add(soldier);
+            _entities = _entities.Add(soldier);
         }
     }
 
@@ -80,20 +70,20 @@ public class Unit : MonoBehaviour
 
     private void KillSoldier(int index)
     {
-        if (_numberOfUnits - 1 < MinNumberOfUnits) return;
+        if (_numberOfUnits - 1 < _unitDescriptor.minNumberOfEntities) return;
 
         _numberOfUnits--;
 
-        Destroy(_soldiers[index].gameObject);
-        _soldiers.RemoveAt(index);
+        Destroy(_entities[index].gameObject);
+        _entities = _entities.RemoveAt(index);
     }
 
     public bool IsHighlighted
     {
-        get => _soldiers.Aggregate(false, (agg, soldier) => agg || soldier.IsHighlighted);
+        get => _entities.Aggregate(false, (agg, soldier) => agg || soldier.IsHighlighted);
         set
         {
-            foreach (var soldier in _soldiers)
+            foreach (var soldier in _entities)
                 soldier.IsHighlighted = value;
         }
     }
@@ -114,19 +104,19 @@ public class Unit : MonoBehaviour
     IEnumerator RepositionSoldiers()
     {
         yield return new WaitForEndOfFrame();
-        var localPositions = new UnitPositions(_numberOfUnits, UnitSize).Line().ToList();
+        var localPositions = new UnitPositions(_numberOfUnits, _unitDescriptor.entitySize).Line().ToList();
         for (var i = 0; i < _numberOfUnits; i++)
         {
-            _soldiers[i].GoTo(ProjectOnTerrain(localPositions[i]));
+            _entities[i].GoTo(ProjectOnTerrain(localPositions[i]));
         }
     }
 
     IEnumerator HighlightDestination()
     {
-        var globalPositions = new UnitPositions(_numberOfUnits, UnitSize).Line().Select(ProjectOnTerrain).ToList();
+        var globalPositions = new UnitPositions(_numberOfUnits, _unitDescriptor.entitySize).Line().Select(ProjectOnTerrain).ToList();
         var highlights = globalPositions.Select(p =>
         {
-            var h = Instantiate(entityHighlightPrefab, transform);
+            var h = Instantiate(_unitDescriptor.entityHighlightPrefab, transform);
             h.transform.position = p;
             h.IsHighlighted = true;
             return h;
@@ -145,6 +135,7 @@ public class Unit : MonoBehaviour
     {
         var t = transform;
         var oldRotation = t.rotation;
+        // TODO Make this more efficient
         t.rotation = Quaternion.LookRotation(_forward, Vector3.up);
         var globalPosition = transform.TransformPoint(localPosition) + Destination;
         t.rotation = oldRotation;
