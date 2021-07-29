@@ -31,7 +31,7 @@ namespace TotalWar.Unit
 
             _highlightUnit.IsHighlighted = wasHighlighted;
 
-            StartCoroutine(_moveUnit.RepositionSoldiers());
+            _moveUnit.RepositionSoldiers();
         }
 
         private void KillSoldier(int index)

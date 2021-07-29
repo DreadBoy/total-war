@@ -23,15 +23,15 @@ namespace TotalWar.Entity
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        public void GoTo(Vector3 globalPosition)
+        public void GoTo(Vector3 globalPosition, Vector3 forward)
         {
             if (_goTo != null)
                 StopCoroutine(_goTo);
-            _goTo = GoToAnimated(globalPosition);
+            _goTo = GoToAnimated(globalPosition, forward);
             StartCoroutine(_goTo);
         }
 
-        private IEnumerator GoToAnimated(Vector3 globalPosition)
+        private IEnumerator GoToAnimated(Vector3 globalPosition, Vector3 forward)
         {
             _navMeshAgent.destination = globalPosition;
 
@@ -47,7 +47,7 @@ namespace TotalWar.Entity
             WarpTo(globalPosition);
 
             _animateEntity.Idle();
-            LookForward();
+            LookForward(forward);
             _goTo = null;
         }
 
@@ -56,9 +56,9 @@ namespace TotalWar.Entity
             _navMeshAgent.Warp(globalPosition);
         }
 
-        private void LookForward()
+        private void LookForward(Vector3 forward)
         {
-            transform.forward = Unit.GetComponent<MoveUnit>().Forward;
+            transform.forward = forward;
         }
 
         private void Update()

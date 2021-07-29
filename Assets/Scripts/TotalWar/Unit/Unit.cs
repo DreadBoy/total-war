@@ -19,11 +19,18 @@ namespace TotalWar.Unit
         /// </summary>
         /// <param name="localPosition"></param>
         /// <param name="unitPosition"></param>
+        /// <param name="forward"></param>
         /// <returns></returns>
-        public Vector3 ProjectOnTerrain(Vector3 localPosition, Vector3 unitPosition)
+        public Vector3 ProjectOnTerrain(Vector3 localPosition, Vector3 unitPosition, Vector3 forward)
         {
             var t = transform;
+            var oldRotation = t.rotation;
+            // TODO Make this more efficient
+            if (forward != Vector3.zero)
+                t.rotation = Quaternion.LookRotation(forward, Vector3.up);
             var globalPosition = transform.TransformPoint(localPosition) + unitPosition;
+            if (t.rotation != oldRotation)
+                t.rotation = oldRotation;
 
             var result = new RaycastHit[1];
             var mask = LayerMask.GetMask("Terrain");

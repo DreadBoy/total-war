@@ -23,7 +23,7 @@ namespace TotalWar.Unit
 
             for (var i = 0; i < localPositions.Count; i++)
             {
-                var globalPosition = _unit.ProjectOnTerrain(localPositions[i], _transform.position);
+                var globalPosition = _unit.ProjectOnTerrain(localPositions[i], _transform.position, _transform.forward);
 
                 var entity = Instantiate(descriptor.entityPrefab, transform);
                 entity.Initialize(globalPosition, _transform.forward);
